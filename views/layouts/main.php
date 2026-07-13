@@ -14,6 +14,8 @@ use app\assets\AppAsset;
 AppAsset::register($this);
 
 // $this->render('_head');
+
+//test
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
