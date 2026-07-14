@@ -38,6 +38,18 @@ class PostController extends \yii\web\Controller
         return $this->render('create', ['model' => $model]);
     }
 
+    public function actionViewPosts()
+    {
+        // var_dump(Yii::$app->user->identity->id); return;
+        if(Yii::$app->user->identity == null){
+            return $this->redirect('index');
+        }
+        if(Yii::$app->user->identity->role === 'admin'){
+            return $this->render('view-posts', ['data' => Posts::find()->all()]);
+        }
+        return $this->render('error-page');
+    }
+
    
 
 }

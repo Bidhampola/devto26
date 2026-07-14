@@ -7,6 +7,7 @@ namespace app\controllers;
 use Yii;
 use app\models\ContactForm;
 use app\models\LoginForm;
+use app\models\User;
 use yii\captcha\CaptchaAction;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -86,8 +87,12 @@ class SiteController extends Controller
      *
      * @return Response|string
      */
-    public function actionLogin(): Response|string
+    public function actionLogin()
     {
+        $this->layout = 'login'; //defining the layout for login page
+
+        //$app->user->isGuest =>  not logged in
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -95,6 +100,8 @@ class SiteController extends Controller
         $model = new LoginForm($this->security);
 
         if ($model->load($this->request->post()) && $model->login()) {
+
+            // var_dump(Yii::$app->user->identity->role); return;
             return $this->goBack();
         }
 
@@ -151,5 +158,20 @@ class SiteController extends Controller
     public function actionAbout(): string
     {
         return $this->render('about');
+    }
+
+    //user registration
+    public function actionRegister()
+    {
+        $model = new User();
+
+        if($model->load(Yii::$app->request->post()))
+            {
+                // $model->role = ($model->role);
+                $hash = Yii::$app->security->generatePasswordHash($model->password);
+                $model->password = $hash;
+                $model->save(false);
+            }
+        return $this->render('register', ['model' => $model]);
     }
 }
