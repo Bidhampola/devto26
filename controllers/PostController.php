@@ -50,6 +50,16 @@ class PostController extends \yii\web\Controller
         return $this->render('error-page');
     }
 
+    public function actionPosts(){
+        
+        // Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        // $data = Posts::find()->all();
+        // // $jsonData = json_encode($data);
+
+        // var_dump($data); return;
+        // return $data;
+    }
+
    
 
 }
